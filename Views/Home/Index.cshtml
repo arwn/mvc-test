@@ -1,0 +1,49 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    ViewData["NumPhotos"] = 0;
+    int pageLength = (int)ViewData["PageLength"];
+    int pageNumber = (int)ViewData["PageNumber"];
+}
+
+@model mvcTest.Models.Photo
+
+<div class="container">
+    <h1 class="display-4">Hello</h1>
+    <div class="container-fluid">
+        <ul class="list-group list-group-flush">
+            @foreach (Photo p in (Photo[])ViewData["Photos"])
+            {
+                <li class="list-group-item">
+                    <a class="float-right" href=@p.thumbnailUrl>
+                        <img class="ml-3" src=@p.thumbnailUrl>
+                    </a>
+                    <b>TITLE: </b> @p.title<br>
+                    album id: @p.albumId<br>
+                    id: @p.id
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="container">
+        <form action="/">
+            <label for="pageLength" class="float-left">Items per page: </label>
+            <input class="float-left" type=number id=pageLength name=pageLength value=@pageLength max=10>
+            <ul class="pagination float-right">
+                @for (int i = (int)ViewData["FirstPage"]; i <= (int)ViewData["LastPage"]; i++)
+                {
+                    <li>
+                        @if ((int)ViewData["PageNumber"] == i)
+                        {
+                            <a class="page-link bg-primary text-light" href="./?pageLength=@pageLength&pageNumber=@i">
+                                <span class="sr-only">(current)</span>@i</a>
+                        }
+                        else
+                        {
+                            <a class="page-link" href="./?pageLength=@pageLength&pageNumber=@i">@i</a>
+                        }
+                    </li>
+                }
+            </ul>
+        </form>
+    </div>
+</div>
